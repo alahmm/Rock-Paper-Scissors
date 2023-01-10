@@ -1,8 +1,6 @@
 package gamesfinalversion;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class Main {
@@ -68,15 +66,12 @@ public class Main {
     public static void ScoreWriter (String name, int score) throws IOException {
         String path = "C:\\Users\\alahmm\\Downloads\\rating.txt";
         File file = new File(path);
-        //File fileNew = new File(path);
         Scanner scannerRead = new Scanner(file);
-/*        boolean isExist = false;
-        StringBuilder builder = new StringBuilder();*/
+        boolean isNotExist = false;
         ArrayList<String> array = new ArrayList<>();
-        while (scannerRead.hasNextLine()) {
+        while (scannerRead.hasNext()) {
             String inputRead = scannerRead.next();
             array.add(inputRead);
-            //builder.append(inputRead);
         }
         String[] listOfContent = new String[array.size()];
         for (int i = 0; i < listOfContent.length; i++) {
@@ -85,37 +80,32 @@ public class Main {
         for (int i = 0; i < listOfContent.length - 1; i ++) {
             if (listOfContent[i].equals(name)) {
                 listOfContent[i + 1] = Integer.toString(score);
+                isNotExist = false;
+                break;
             } else {
-                
+                isNotExist = true;
             }
         }
-        PrintWriter printWriter = new PrintWriter(file);
-        for (int i = 0; i < listOfContent.length - 1; i += 2) {
-            printWriter.printf("%n%s %s", listOfContent[i], listOfContent[i + 1]);
+        if (!isNotExist) {
+            PrintWriter printWriter = new PrintWriter(file);
+            for (int i = 0; i < listOfContent.length - 1; i += 2) {
+                printWriter.printf("%n%s %s", listOfContent[i], listOfContent[i + 1]);
+            }
+            printWriter.close();
         }
-        printWriter.close();
-
-/*            if(array.get(i).equals(name)) {
-                PrintWriter printWriter = new PrintWriter(fileNew);
-                printWriter.printf("%n%s %s", array.get(i), array.get(i + 1));
-                printWriter.close();
-            }else {
-                try (FileWriter fileWriter = new FileWriter(file, true)) {
-                    PrintWriter printWriter = new PrintWriter(fileWriter);
-                    printWriter.printf("%n%s %d", name, score);
-
-                }*/
-
-
-
-
+        if (isNotExist) {
+            try (FileWriter fileWriter = new FileWriter(file, true)) {
+                PrintWriter printWriter2 = new PrintWriter(fileWriter);
+                printWriter2.printf("%n%s %d", name, score);
+            }
+        }
     }
     public static int ScoreProvoider (String name) throws FileNotFoundException{
-        int score = 0;
         String path = "C:\\Users\\alahmm\\Downloads\\rating.txt";
         File file = new File(path);
         Scanner scannerRead = new Scanner(file);
-        while (scannerRead.hasNextLine()) {
+        int score = 0;
+        while (scannerRead.hasNext()) {
             String inputRead = scannerRead.next();
             if (inputRead.equals(name)) {
                 score += Integer.parseInt(scannerRead.next());
@@ -126,7 +116,6 @@ public class Main {
     }
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        //String s = rockpaperscissors.Main.RandomOptionGenerator();
         System.out.print("Enter your name:");
         String name = scanner.next();
         System.out.printf("Hello, %s%n", name);
