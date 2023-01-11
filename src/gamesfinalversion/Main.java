@@ -18,6 +18,7 @@ public class Main {
     public static void chooseAnOption (String name, String input) throws IOException {
         String computerOption = RandomOptionGenerator();
         int score = ScoreProvoider(name);
+
         if (input.equals("paper")) {
             if (computerOption.equals("scissors")) {
                 System.out.println("Sorry, but the computer chose scissors");
@@ -109,6 +110,7 @@ public class Main {
             String inputRead = scannerRead.next();
             if (inputRead.equals(name)) {
                 score += Integer.parseInt(scannerRead.next());
+                //score += 350;
                 break;
             }
         }
@@ -119,7 +121,10 @@ public class Main {
         System.out.print("Enter your name:");
         String name = scanner.next();
         System.out.printf("Hello, %s%n", name);
-
+        
+        if(name.equals("Bob")) {
+            ScoreWriter(name, 350);
+        }
         while (scanner.hasNextLine()) {
             String input = scanner.next();
             if (input.equals("!exit")) {
